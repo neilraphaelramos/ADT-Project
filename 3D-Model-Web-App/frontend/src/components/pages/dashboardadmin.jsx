@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './../css/dashb_admin.css'
 
 function AdminDashboard() {
     const navigate = useNavigate();
@@ -12,8 +13,22 @@ function AdminDashboard() {
     const [message, setMessage] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [theme, setTheme] = useState('light');
 
     axios.defaults.withCredentials = true;
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+    }, []);
+
+    const toggleTheme = useCallback(() => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    }, [theme]);
 
     const handleLogout = () => {
         axios.post('http://localhost:8081/logout', {}, { withCredentials: true })
@@ -69,8 +84,8 @@ function AdminDashboard() {
     useEffect(() => {
         userdata();
         const interval = setInterval(() => {
-            userdata();;
-        }, 5000); // 
+            userdata();
+        }, 30000);
 
         return () => clearInterval(interval);
     }, []);
@@ -80,8 +95,8 @@ function AdminDashboard() {
     }
 
     return (
-        <div>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className={`vh-100 theme-${theme}`}>
+            <nav className={`navbar navbar-expand-lg ${theme === 'dark' ? 'navbar-dark bg-dark' : 'navbar-light bg-light'}`}>
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="/admindashboard">Admin Dashboard</Link>
                     <button
@@ -115,7 +130,14 @@ function AdminDashboard() {
                                         <Link className="dropdown-item" onClick={fetchAdminInfo}>Admin User</Link>
                                     </li>
                                     <li><hr className="dropdown-divider" /></li>
-                                    <li><Link className="dropdown-item" onClick={handleLogout}>Logout</Link></li>
+                                    <li>
+                                        <Link className="dropdown-item" onClick={handleLogout}>Logout</Link>
+                                    </li>
+                                    <li>
+                                        <Link className="dropdown-item" onClick={toggleTheme}>
+                                            Switch to {theme === 'light' ? 'Dark' : 'Light'} Mode
+                                        </Link>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>
@@ -125,7 +147,7 @@ function AdminDashboard() {
             <div className="container mt-4">
                 <h2>Admin Dashboard</h2>
                 {message && <div className="alert alert-danger">{message}</div>}
-                <table className="table">
+                <table className={`table table-${theme === 'light' ? 'light' : 'dark'}`}>
                     <thead>
                         <tr>
                             <th>User ID</th>

@@ -54,7 +54,7 @@ const SignUpForm = () => {
                         {errors.username && <span className='text-danger'> {errors.username} </span>}
                     </div>
                     <div className='mb-3'>
-                        <label htmlFor='email' className='form-label'>Email</label>
+                        <label htmlFor='email' className='form-label'><strong>Email</strong></label>
                         <input type='email' id='email' placeholder='Enter Email'
                             name='email'
                             onChange={handleInput}
@@ -62,7 +62,7 @@ const SignUpForm = () => {
                         {errors.email && <span className='text-danger'> {errors.email} </span>}
                     </div>
                     <div className='mb-3'>
-                        <label htmlFor='password' className='form-label'>Password</label>
+                        <label htmlFor='password' className='form-label'><strong>Password</strong></label>
                         <input type='password' id='password' placeholder='Enter Password'
                             name='password'
                             onChange={handleInput}

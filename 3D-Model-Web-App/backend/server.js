@@ -262,6 +262,21 @@ app.get('/admin_info', verifyAdmin, (req, res) => {
     });
 });
 
+app.post('/update_theme', (req, res) => {
+    const userId = req.body.userid;
+    const newTheme = req.body.newTheme;  // Change to 'newTheme' to match frontend
+
+    const query = "UPDATE user_info_data SET color_theme = ? WHERE userid = ?";
+    dbase.query(query, [newTheme, userId], (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: "Failed to Update Theme!" });
+        } else {
+            res.json({ success: true });
+        }
+    });
+});
+
 // Start the server
 app.listen(8081, () => {
     console.log("Listening on port 8081");
