@@ -120,7 +120,7 @@ function UserDashboard() {
                                 >
                                     Dropdown
                                 </a>
-                                <ul className="dropdown-menu">
+                                <ul className={`dropdown-menu dropdown-menu-${theme}`}>
                                     <li><Link className="dropdown-item" to="#">Action</Link></li>
                                     <li><Link className='dropdown-item'>Another Action</Link></li>
                                     <li><hr className="dropdown-divider" /></li>

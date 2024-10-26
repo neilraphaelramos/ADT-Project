@@ -125,7 +125,7 @@ function AdminDashboard() {
                                 >
                                     Options
                                 </a>
-                                <ul className="dropdown-menu">
+                                <ul className={`dropdown-menu dropdown-menu-${theme}`}>
                                     <li>
                                         <Link className="dropdown-item" onClick={fetchAdminInfo}>Admin User</Link>
                                     </li>
